@@ -1,129 +1,201 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kampung Parakancauri</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #f4f6f8;
-      color: #333;
-    }
-    header {
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-      color: white;
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    header .logo {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    header img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 500;
-    }
-    nav a:hover { text-decoration: underline; }.hero {
-  background: url('images/hero.jpg') center/cover no-repeat;
-  padding: 100px 20px;
-  text-align: center;
-  color: white;
-}
-.hero h1 { font-size: 42px; margin-bottom: 10px; }
-.hero p { font-size: 18px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kampung Wisata Parakancauri</title>
 
-section {
-  padding: 60px 40px;
-  max-width: 1200px;
-  margin: auto;
-}
-section h2 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 32px;
-}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
+<style>
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:#f4f6f8;
 }
-.card {
-  background: white;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  transition: transform .3s;
+header{
+  background:linear-gradient(135deg,#2ecc71,#27ae60);
+  padding:15px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#fff;
 }
-.card:hover { transform: translateY(-5px); }
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
-.card .content { padding: 20px; }
-.card h3 { margin-top: 0; }
-
-.stars { color: #f1c40f; }
-
-form {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+.logo img{
+  width:55px;
+  height:55px;
+  border-radius:50%;
 }
-form input, form textarea, form select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-family: inherit;
+nav a{
+  color:#fff;
+  margin-left:15px;
+  text-decoration:none;
+  font-weight:500;
 }
-form button {
-  background: #27ae60;
-  color: white;
-  border: none;
-  padding: 14px;
-  width: 100%;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
+.hero{
+  background:url('images/hero.jpg') center/cover no-repeat;
+  padding:120px 20px;
+  text-align:center;
+  color:#fff;
 }
-form button:hover { background: #219150; }
-
-footer {
-  background: #222;
-  color: #ccc;
-  text-align: center;
-  padding: 20px;
-  margin-top: 60px;
+section{
+  padding:60px 20px;
+  max-width:1200px;
+  margin:auto;
 }
-
-  </style>
+h2{text-align:center;margin-bottom:40px;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
+.card{
+  background:#fff;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+.card .content{
+  padding:20px;
+}
+.price{
+  color:#27ae60;
+  font-weight:700;
+}
+button{
+  background:#27ae60;
+  color:#fff;
+  border:none;
+  padding:10px 15px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:10px;
+}
+footer{
+  background:#222;
+  color:#ccc;
+  text-align:center;
+  padding:20px;
+}
+</style>
 </head>
-<body><header>
+
+<body>
+
+<header>
   <div class="logo">
-    <img src="images/logo.jpg" alt="Logo Kampung Parakancauri">
-    <h2>Kampung Parakancauri</h2>
+    <img src="images/logo.jpg">
+    <h3>Kampung Parakancauri</h3>
   </div>
   <nav>
-    <a href="#beranda">Beranda</a>
-    <a href="#paket">Paket Wisata</a>
-    <a href="#galeri">Galeri</a>
+    <a href="#paket">Paket</a>
+    <a href="#wisata">Wisata</a>
+    <a href="#order">Order</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Desa Wisata Kampung Parakancauri</h1>
+  <p>Edukasi • Alam • UMKM • Homestay</p>
+</div>
+
+<section id="paket">
+<h2>Paket Wisata</h2>
+<div class="grid">
+
+<div class="card">
+<img src="images/paket1.jpg">
+<div class="content">
+<h3>Paket 1 Hari</h3>
+<p class="price">Rp 75.000 / orang</p>
+<button onclick="order('Paket 1 Hari')">Order</button>
+</div>
+</div>
+
+<div class="card">
+<img src="images/paket2.jpg">
+<div class="content">
+<h3>2 Hari 1 Malam</h3>
+<p class="price">Rp 150.000 / orang</p>
+<button onclick="order('2 Hari 1 Malam')">Order</button>
+</div>
+</div>
+
+<div class="card">
+<img src="images/paket3.jpg">
+<div class="content">
+<h3>3 Hari 2 Malam</h3>
+<p class="price">Rp 250.000 / orang</p>
+<button onclick="order('3 Hari 2 Malam')">Order</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="wisata">
+<h2>Fasilitas & Wisata</h2>
+<div class="grid">
+
+<div class="card">
+<img src="images/homestay.jpg">
+<div class="content">
+<h3>Homestay Rumah Ngabogyag</h3>
+</div>
+</div>
+
+<div class="card">
+<img src="images/curug.jpg">
+<div class="content">
+<h3>Trip Curug Cilamaya</h3>
+</div>
+</div>
+
+<div class="card">
+<img src="images/umkm.jpg">
+<div class="content">
+<h3>Edukasi UMKM Desa</h3>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="order">
+<h2>Form Order</h2>
+<form onsubmit="kirimWA();return false;">
+<input id="nama" placeholder="Nama">
+<input id="paket" placeholder="Paket">
+<button type="submit">Kirim via WhatsApp</button>
+</form>
+</section>
+
+<footer>
+© 2026 Kampung Wisata Parakancauri
+</footer>
+
+<script>
+function order(paket){
+  document.getElementById("paket").value=paket;
+  location.href="#order";
+}
+function kirimWA(){
+  let nama=document.getElementById("nama").value;
+  let paket=document.getElementById("paket").value;
+  let wa="628xxxxxxxxx"; // ganti nomor
+  window.open(`https://wa.me/${wa}?text=Halo saya ${nama}, ingin order ${paket}`);
+}
+</script>
+
+</body>
+</html>
