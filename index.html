@@ -15,7 +15,7 @@ body{
 }
 header{
   background:linear-gradient(135deg,#2ecc71,#27ae60);
-  padding:15px 30px;
+  padding:15px 25px;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -30,6 +30,7 @@ header{
   width:55px;
   height:55px;
   border-radius:50%;
+  background:#fff;
 }
 nav a{
   color:#fff;
@@ -38,7 +39,7 @@ nav a{
   font-weight:500;
 }
 .hero{
-  background:url('images/hero.jpg') center/cover no-repeat;
+  background:linear-gradient(135deg,#27ae60,#2ecc71);
   padding:120px 20px;
   text-align:center;
   color:#fff;
@@ -48,7 +49,10 @@ section{
   max-width:1200px;
   margin:auto;
 }
-h2{text-align:center;margin-bottom:40px;}
+h2{
+  text-align:center;
+  margin-bottom:40px;
+}
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -81,6 +85,18 @@ button{
   cursor:pointer;
   margin-top:10px;
 }
+form{
+  max-width:400px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+input{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
 footer{
   background:#222;
   color:#ccc;
@@ -94,7 +110,7 @@ footer{
 
 <header>
   <div class="logo">
-    <img src="images/logo.jpg">
+    <img src="logo.jpeg" alt="Logo">
     <h3>Kampung Parakancauri</h3>
   </div>
   <nav>
@@ -114,7 +130,7 @@ footer{
 <div class="grid">
 
 <div class="card">
-<img src="images/paket1.jpg">
+<img src="paket nginep.jpg">
 <div class="content">
 <h3>Paket 1 Hari</h3>
 <p class="price">Rp 75.000 / orang</p>
@@ -123,7 +139,7 @@ footer{
 </div>
 
 <div class="card">
-<img src="images/paket2.jpg">
+<img src="paket nginep.jpg">
 <div class="content">
 <h3>2 Hari 1 Malam</h3>
 <p class="price">Rp 150.000 / orang</p>
@@ -132,7 +148,7 @@ footer{
 </div>
 
 <div class="card">
-<img src="images/paket3.jpg">
+<img src="paket nginep.jpg">
 <div class="content">
 <h3>3 Hari 2 Malam</h3>
 <p class="price">Rp 250.000 / orang</p>
@@ -148,23 +164,30 @@ footer{
 <div class="grid">
 
 <div class="card">
-<img src="images/homestay.jpg">
+<img src="homestay.jpg">
 <div class="content">
-<h3>Homestay Rumah Ngabogyag</h3>
+<h3>Homestay Desa</h3>
 </div>
 </div>
 
 <div class="card">
-<img src="images/curug.jpg">
+<img src="ngagobyag.jpg">
+<div class="content">
+<h3>Rumah Ngabogyag</h3>
+</div>
+</div>
+
+<div class="card">
+<img src="curug.jpg">
 <div class="content">
 <h3>Trip Curug Cilamaya</h3>
 </div>
 </div>
 
 <div class="card">
-<img src="images/umkm.jpg">
+<img src="pelatihan.jpeg">
 <div class="content">
-<h3>Edukasi UMKM Desa</h3>
+<h3>Pelatihan Teh Desa</h3>
 </div>
 </div>
 
@@ -174,8 +197,8 @@ footer{
 <section id="order">
 <h2>Form Order</h2>
 <form onsubmit="kirimWA();return false;">
-<input id="nama" placeholder="Nama">
-<input id="paket" placeholder="Paket">
+<input id="nama" placeholder="Nama" required>
+<input id="paket" placeholder="Paket" required>
 <button type="submit">Kirim via WhatsApp</button>
 </form>
 </section>
@@ -186,14 +209,14 @@ footer{
 
 <script>
 function order(paket){
-  document.getElementById("paket").value=paket;
+  document.getElementById("paket").value = paket;
   location.href="#order";
 }
 function kirimWA(){
-  let nama=document.getElementById("nama").value;
-  let paket=document.getElementById("paket").value;
-  let wa="628xxxxxxxxx"; // ganti nomor
-  window.open(`https://wa.me/${wa}?text=Halo saya ${nama}, ingin order ${paket}`);
+  let nama = document.getElementById("nama").value;
+  let paket = document.getElementById("paket").value;
+  let wa = "628XXXXXXXXX"; // GANTI NOMOR ADMIN
+  window.open("https://wa.me/" + wa + "?text=Halo saya " + nama + ", ingin order " + paket);
 }
 </script>
 
