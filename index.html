@@ -33,15 +33,21 @@ body{
   margin:0;
 }
 
-/* NAV */
+/* NAV (HORIZONTAL SCROLL AKTIF) */
 .nav{
   display:flex;
-  justify-content:center;
-  gap:15px;
+  gap:12px;
   padding:12px;
   background:#1e8449;
+  overflow-x:auto;
+  white-space:nowrap;
+  -webkit-overflow-scrolling:touch;
+}
+.nav::-webkit-scrollbar{
+  display:none;
 }
 .nav a{
+  flex:0 0 auto;
   color:white;
   text-decoration:none;
   font-weight:bold;
