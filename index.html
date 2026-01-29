@@ -3,225 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kampung Wisata Parakancauri</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  font-family:Poppins,sans-serif;
-  background:#f4f6f8;
-}
-header{
-  background:linear-gradient(135deg,#2ecc71,#27ae60);
-  padding:15px 25px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  color:#fff;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.logo img{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  background:#fff;
-}
-nav a{
-  color:#fff;
-  margin-left:15px;
-  text-decoration:none;
-  font-weight:500;
-}
-.hero{
-  background:linear-gradient(135deg,#27ae60,#2ecc71);
-  padding:120px 20px;
-  text-align:center;
-  color:#fff;
-}
-section{
-  padding:60px 20px;
-  max-width:1200px;
-  margin:auto;
-}
-h2{
-  text-align:center;
-  margin-bottom:40px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;
-}
-.card{
-  background:#fff;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
-}
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
-.card .content{
-  padding:20px;
-}
-.price{
-  color:#27ae60;
-  font-weight:700;
-}
-button{
-  background:#27ae60;
-  color:#fff;
-  border:none;
-  padding:12px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:600;
-}
-form{
-  max-width:420px;
-  margin:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-input, select{
-  padding:12px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-.payment{
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  font-size:14px;
-}
-footer{
-  background:#222;
-  color:#ccc;
-  text-align:center;
-  padding:20px;
-}
-</style>
+<title>Wisata Kampung Parakancauri</title>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body>
 
-<header>
+<header class="navbar">
   <div class="logo">
-    <img src="logo.jpeg" alt="Logo">
-    <h3>Kampung Parakancauri</h3>
+    <img src="assets/img/logo.png">
+    <span>Wisata Kampung Parakancauri</span>
   </div>
-  <nav>
-    <a href="#paket">Paket</a>
-    <a href="#wisata">Wisata</a>
-    <a href="#order">Order</a>
-  </nav>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
 </header>
 
-<div class="hero">
-  <h1>Desa Wisata Kampung Parakancauri</h1>
-  <p>Edukasi • Alam • UMKM • Homestay</p>
-</div>
+<nav id="menu">
+  <a href="paket.html">Paket Wisata</a>
+  <a href="homestay.html">Homestay</a>
+  <a href="order-step1.html">Order</a>
+  <a href="tentang.html">Tentang</a>
+</nav>
 
-<section id="paket">
-<h2>Paket Wisata</h2>
-<div class="grid">
-
-<div class="card">
-<img src="paket nginep.jpg">
-<div class="content">
-<h3>1 Hari</h3>
-<p class="price">Rp 75.000 / orang</p>
-<button onclick="order('1 Hari - Rp 75.000')">Order</button>
-</div>
-</div>
-
-<div class="card">
-<img src="paket nginep.jpg">
-<div class="content">
-<h3>2 Hari 1 Malam</h3>
-<p class="price">Rp 150.000 / orang</p>
-<button onclick="order('2 Hari 1 Malam - Rp 150.000')">Order</button>
-</div>
-</div>
-
-<div class="card">
-<img src="paket nginep.jpg">
-<div class="content">
-<h3>3 Hari 2 Malam</h3>
-<p class="price">Rp 250.000 / orang</p>
-<button onclick="order('3 Hari 2 Malam - Rp 250.000')">Order</button>
-</div>
-</div>
-
-</div>
-</section>
-
-<section id="order">
-<h2>Form Order</h2>
-
-<form onsubmit="kirimWA();return false;">
-  <input id="nama" placeholder="Nama Lengkap" required>
-
-  <select id="paket" required>
-    <option value="">Pilih Paket Wisata</option>
-    <option>1 Hari - Rp 75.000 / orang</option>
-    <option>2 Hari 1 Malam - Rp 150.000 / orang</option>
-    <option>3 Hari 2 Malam - Rp 250.000 / orang</option>
-  </select>
-
-  <select id="pembayaran" required>
-    <option value="">Metode Pembayaran</option>
-    <option>Transfer BCA</option>
-    <option>Transfer Mandiri</option>
-    <option>Transfer BRI</option>
-    <option>Transfer Bank Lain</option>
-  </select>
-
-  <div class="payment">
-    <strong>Info Pembayaran:</strong><br>
-    BCA : 1234567890<br>
-    Mandiri : 0987654321<br>
-    BRI : 1122334455<br>
-    A/N Kampung Wisata Parakancauri
+<section class="hero">
+  <img src="assets/img/hero.jpg">
+  <div class="hero-text">
+    <h1>Selamat Datang di Kampung Parakancauri</h1>
+    <p>Wisata edukasi, budaya, dan alam yang autentik</p>
   </div>
-
-  <button type="submit">Kirim Pesanan via WhatsApp</button>
-</form>
 </section>
 
-<footer>
-© 2026 Kampung Wisata Parakancauri
-</footer>
+<section class="content">
+  <h2>Pilih Tanggal Kunjungan</h2>
+  <input type="date">
 
-<script>
-function order(paket){
-  document.getElementById("paket").value = paket;
-  location.href="#order";
-}
+  <h2>Video Wisata</h2>
+  <iframe width="100%" height="315"
+    src="https://youtu.be/4tlgZfzbOEc"
+    allowfullscreen></iframe>
 
-function kirimWA(){
-  let nama = document.getElementById("nama").value;
-  let paket = document.getElementById("paket").value;
-  let bayar = document.getElementById("pembayaran").value;
-  let wa = "6283148484731"; // GANTI NOMOR ADMIN
+  <h2>Ulasan Pengunjung</h2>
+  <form id="reviewForm">
+    <input type="text" placeholder="Nama" required>
+    <textarea placeholder="Komentar"></textarea>
+    <select>
+      <option value="5">⭐⭐⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
+    </select>
+    <button>Kirim</button>
+  </form>
 
-  let pesan = `Halo Admin, saya ${nama}%0A
-Ingin memesan:%0A
-Paket: ${paket}%0A
-Pembayaran: ${bayar}`;
+  <div id="reviewList"></div>
+</section>
 
-  window.open("https://wa.me/" + wa + "?text=" + pesan);
-}
-</script>
-
+<script src="assets/js/main.js"></script>
 </body>
 </html>
