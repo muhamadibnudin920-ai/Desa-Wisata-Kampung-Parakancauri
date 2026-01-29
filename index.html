@@ -33,7 +33,7 @@ body{
   margin:0;
 }
 
-/* NAV (HORIZONTAL SCROLL AKTIF) */
+/* NAV */
 .nav{
   display:flex;
   gap:12px;
@@ -41,11 +41,8 @@ body{
   background:#1e8449;
   overflow-x:auto;
   white-space:nowrap;
-  -webkit-overflow-scrolling:touch;
 }
-.nav::-webkit-scrollbar{
-  display:none;
-}
+.nav::-webkit-scrollbar{display:none;}
 .nav a{
   flex:0 0 auto;
   color:white;
@@ -94,7 +91,6 @@ body{
   background:#27ae60;
   color:white;
   font-weight:bold;
-  cursor:pointer;
 }
 
 /* REVIEW */
@@ -102,17 +98,12 @@ body{
   border-bottom:1px solid #eee;
   padding:15px 0;
 }
-.review-name{
-  font-weight:bold;
-}
-.review-rating{
-  color:#f1c40f;
-}
+.review-rating{color:#f1c40f;}
 
 /* VIDEO */
 .video-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:20px;
 }
 .video-card iframe{
@@ -120,6 +111,40 @@ body{
   height:240px;
   border-radius:14px;
   border:none;
+}
+
+/* ===== PAKET SLIDER ===== */
+.paket-wrapper{
+  background:#fff;
+  margin:20px;
+  padding:20px;
+  border-radius:16px;
+}
+.paket-slider{
+  display:flex;
+  gap:16px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.paket-slider::-webkit-scrollbar{display:none;}
+.paket-item{
+  flex:0 0 85%;
+  scroll-snap-align:start;
+}
+.paket-item img{
+  width:100%;
+  border-radius:16px;
+}
+.arrow{
+  text-align:center;
+  font-size:28px;
+  margin-top:10px;
+  animation:geser 1.5s infinite;
+}
+@keyframes geser{
+  0%,100%{transform:translateX(0);}
+  50%{transform:translateX(10px);}
 }
 
 /* FOOTER */
@@ -141,9 +166,9 @@ body{
 
 <nav class="nav">
   <a href="index.html">Beranda</a>
-  <a href="#">Paket Wisata</a>
+  <a href="#">Edukasi</a>
   <a href="#">Homestay</a>
-  <a href="#">Order</a>
+  <a href="#">Produk</a>
   <a href="tentang.html">Tentang</a>
 </nav>
 
@@ -151,28 +176,32 @@ body{
 
 <section class="section">
   <h2>Selamat Datang</h2>
-  <p>
-    Website Resmi Wisata Kampung Parakancauri adalah destinasi wisata edukasi,
-    budaya, dan alam yang autentik dengan pengalaman langsung bersama masyarakat lokal.
-  </p>
+  <p>Website Resmi Wisata Kampung Parakancauri adalah destinasi wisata edukasi, budaya, dan alam.</p>
 </section>
 
-<section class="section">
-  <h3>Pilih Tanggal Kunjungan</h3>
-  <input type="date" class="input">
+<!-- ===== PAKET WISATA SLIDER ===== -->
+<section class="paket-wrapper">
+  <h3>Paket Wisata</h3>
+  <div class="paket-slider" id="paketSlider">
+    <div class="paket-item"><img src="paket1.png"></div>
+    <div class="paket-item"><img src="paket2.png"></div>
+    <div class="paket-item"><img src="paket3.png"></div>
+    <div class="paket-item"><img src="paket4.jpg"></div>
+  </div>
+  <div class="arrow" id="arrow">➡️</div>
 </section>
 
 <section class="section">
   <h3>Ulasan Pengunjung</h3>
   <form id="reviewForm">
-    <input type="text" id="name" placeholder="Nama" class="input" required>
-    <textarea id="comment" placeholder="Komentar" class="input" required></textarea>
+    <input type="text" id="name" class="input" placeholder="Nama" required>
+    <textarea id="comment" class="input" placeholder="Komentar" required></textarea>
     <select id="rating" class="input">
       <option value="5">⭐⭐⭐⭐⭐</option>
       <option value="4">⭐⭐⭐⭐</option>
       <option value="3">⭐⭐⭐</option>
     </select>
-    <button class="btn">Kirim Ulasan</button>
+    <button class="btn">Kirim</button>
   </form>
   <div id="reviewList"></div>
 </section>
@@ -180,39 +209,19 @@ body{
 <section class="section">
   <h3>Video & Testimoni</h3>
   <div class="video-grid">
-    <div class="video-card">
-      <iframe src="https://www.youtube.com/embed/4tlgZfzbOEc"></iframe>
-    </div>
-    <div class="video-card">
-      <iframe src="https://www.youtube.com/embed/TOkoC0wrhHw"></iframe>
-    </div>
+    <div class="video-card"><iframe src="https://www.youtube.com/embed/4tlgZfzbOEc"></iframe></div>
+    <div class="video-card"><iframe src="https://www.youtube.com/embed/TOkoC0wrhHw"></iframe></div>
   </div>
 </section>
 
-<footer class="footer">
-  © 2026 Wisata Kampung Parakancauri
-</footer>
+<footer class="footer">© 2026 Wisata Kampung Parakancauri</footer>
 
 <script>
-const form = document.getElementById("reviewForm");
-const list = document.getElementById("reviewList");
+const form=document.getElementById("reviewForm"),list=document.getElementById("reviewList");
+form.addEventListener("submit",e=>{e.preventDefault();list.prepend(Object.assign(document.createElement("div"),{className:"review-item",innerHTML:`<b>${name.value}</b><div class="review-rating">${"⭐".repeat(rating.value)}</div><div>${comment.value}</div>`}));form.reset();});
 
-form.addEventListener("submit", e => {
-  e.preventDefault();
-  const name = document.getElementById("name").value;
-  const comment = document.getElementById("comment").value;
-  const rating = document.getElementById("rating").value;
-
-  const div = document.createElement("div");
-  div.className = "review-item";
-  div.innerHTML = `
-    <div class="review-name">${name}</div>
-    <div class="review-rating">${"⭐".repeat(rating)}</div>
-    <div>${comment}</div>
-  `;
-  list.prepend(div);
-  form.reset();
-});
+const slider=document.getElementById("paketSlider"),arrow=document.getElementById("arrow");
+slider.addEventListener("scroll",()=>{const max=slider.scrollWidth-slider.clientWidth;arrow.textContent=slider.scrollLeft>=max-5?"⬅️":"➡️";});
 </script>
 
 </body>
