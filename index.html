@@ -4,57 +4,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wisata Kampung Parakancauri</title>
-<link rel="stylesheet" href="assets/css/style.css">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f4f6f8;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:15px;
+  background:#2ecc71;
+  color:white;
+}
+
+.logo-img{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+}
+
+.site-title{
+  font-size:20px;
+  margin:0;
+}
+
+.nav-bg{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:12px;
+  background:url('assets/img/bg.jpg') center/cover no-repeat;
+}
+
+.nav-bg a{
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+  background:rgba(0,0,0,0.5);
+  padding:8px 14px;
+  border-radius:8px;
+}
+
+.section{
+  padding:20px;
+  background:white;
+  margin:15px;
+  border-radius:12px;
+}
+
+.input{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.btn{
+  margin-top:10px;
+  padding:10px;
+  width:100%;
+  border:none;
+  border-radius:8px;
+  background:#27ae60;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:20px;
+}
+
+.video-card iframe{
+  width:100%;
+  height:250px;
+  border-radius:12px;
+  border:none;
+}
+
+.video-card p{
+  margin-top:8px;
+  font-size:14px;
+  text-align:center;
+}
+
+.footer{
+  text-align:center;
+  padding:15px;
+  background:#2ecc71;
+  color:white;
+  margin-top:30px;
+}
+</style>
 </head>
+
 <body>
 
-<header class="navbar">
-  <div class="logo">
-    <img src="assets/img/logo.png">
-    <span>Wisata Kampung Parakancauri</span>
-  </div>
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+<!-- HEADER -->
+<header class="header">
+  <img src="assets/img/logo.jpeg" class="logo-img" alt="Logo">
+  <h1 class="site-title">Wisata Kampung Parakancauri</h1>
 </header>
 
-<nav id="menu">
+<!-- NAV -->
+<nav class="nav-bg">
   <a href="paket.html">Paket Wisata</a>
   <a href="homestay.html">Homestay</a>
   <a href="order-step1.html">Order</a>
   <a href="tentang.html">Tentang</a>
 </nav>
 
-<section class="hero">
-  <img src="assets/img/hero.jpg">
-  <div class="hero-text">
-    <h1>Selamat Datang di Kampung Parakancauri</h1>
-    <p>Wisata edukasi, budaya, dan alam yang autentik</p>
+<!-- DESKRIPSI -->
+<section class="section">
+  <h2>Selamat Datang</h2>
+  <p>
+    Wisata Kampung Parakancauri adalah destinasi wisata edukasi, budaya,
+    dan alam yang autentik dengan pengalaman langsung bersama masyarakat lokal.
+  </p>
+</section>
+
+<!-- KALENDER -->
+<section class="section">
+  <h3>Pilih Tanggal Kunjungan</h3>
+  <input type="date" class="input">
+</section>
+
+<!-- ULASAN -->
+<section class="section">
+  <h3>Ulasan Pengunjung</h3>
+  <form>
+    <input type="text" placeholder="Nama" required class="input">
+    <textarea placeholder="Komentar" class="input"></textarea>
+    <select class="input">
+      <option>⭐⭐⭐⭐⭐</option>
+      <option>⭐⭐⭐⭐</option>
+      <option>⭐⭐⭐</option>
+    </select>
+    <button class="btn">Kirim Ulasan</button>
+  </form>
+</section>
+
+<!-- VIDEO -->
+<section class="section">
+  <h3>Video & Testimoni Wisatawan</h3>
+
+  <div class="video-grid">
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/4tlgZfzbOEc" allowfullscreen></iframe>
+      <p>Wisata edukasi Kampung Parakancauri</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/TOkoC0wrhHw" allowfullscreen></iframe>
+      <p>Budaya & tradisi lokal</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.instagram.com/reel/DTaYGihjyVe/embed" allowfullscreen></iframe>
+      <p>Keseruan wisatawan</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.instagram.com/reel/DSkVcwOkmnu/embed" allowfullscreen></iframe>
+      <p>Wisata alam & kebersamaan</p>
+    </div>
+
+    <div class="video-card">
+      <iframe src="https://www.instagram.com/reel/DDjrG5eBqD4/embed" allowfullscreen></iframe>
+      <p>Testimoni pengunjung</p>
+    </div>
+
   </div>
 </section>
 
-<section class="content">
-  <h2>Pilih Tanggal Kunjungan</h2>
-  <input type="date">
+<footer class="footer">
+  © 2026 Wisata Kampung Parakancauri
+</footer>
 
-  <h2>Video Wisata</h2>
-  <iframe width="100%" height="315"
-    src="https://youtu.be/4tlgZfzbOEc"
-    allowfullscreen></iframe>
-
-  <h2>Ulasan Pengunjung</h2>
-  <form id="reviewForm">
-    <input type="text" placeholder="Nama" required>
-    <textarea placeholder="Komentar"></textarea>
-    <select>
-      <option value="5">⭐⭐⭐⭐⭐</option>
-      <option value="4">⭐⭐⭐⭐</option>
-      <option value="3">⭐⭐⭐</option>
-    </select>
-    <button>Kirim</button>
-  </form>
-
-  <div id="reviewList"></div>
-</section>
-
-<script src="assets/js/main.js"></script>
 </body>
 </html>
