@@ -50,7 +50,7 @@ body{
   background:rgba(255,255,255,0.15);
 }
 
-/* HERO BACKGROUND SAJA */
+/* HERO */
 .hero{
   background:url('background.JPG') center/cover no-repeat;
   height:260px;
@@ -70,10 +70,8 @@ body{
   padding:20px;
   border-radius:16px;
 }
-.section h2{
-  margin-top:0;
-}
 
+/* FORM */
 .input{
   width:100%;
   padding:10px;
@@ -98,18 +96,11 @@ body{
   border-bottom:1px solid #eee;
   padding:15px 0;
 }
-.review-item:last-child{
-  border-bottom:none;
-}
 .review-name{
   font-weight:bold;
 }
 .review-rating{
   color:#f1c40f;
-}
-.review-comment{
-  margin:6px 0 0;
-  color:#555;
 }
 
 /* VIDEO */
@@ -124,10 +115,6 @@ body{
   border-radius:14px;
   border:none;
 }
-.video-card p{
-  margin-top:8px;
-  text-align:center;
-}
 
 /* FOOTER */
 .footer{
@@ -135,7 +122,6 @@ body{
   padding:15px;
   background:#2ecc71;
   color:white;
-  margin-top:30px;
 }
 </style>
 </head>
@@ -143,42 +129,38 @@ body{
 <body>
 
 <header class="header">
-  <img src="logo.jpeg" class="logo-img" alt="Logo">
+  <img src="logo.jpeg" class="logo-img">
   <h1 class="site-title">Wisata Kampung Parakancauri</h1>
 </header>
 
 <nav class="nav">
+  <a href="index.html">Beranda</a>
   <a href="#">Paket Wisata</a>
   <a href="#">Homestay</a>
   <a href="#">Order</a>
-  <a href="#">Tentang</a>
+  <a href="tentang.html">Tentang</a>
 </nav>
 
-<!-- BACKGROUND SAJA -->
 <section class="hero"></section>
 
-<!-- TEKS DI BAWAH BACKGROUND -->
 <section class="section">
   <h2>Selamat Datang</h2>
   <p>
-    Di Website Resmi Wisata Kampung Parakancauri adalah destinasi wisata edukasi,
+    Website Resmi Wisata Kampung Parakancauri adalah destinasi wisata edukasi,
     budaya, dan alam yang autentik dengan pengalaman langsung bersama masyarakat lokal.
   </p>
 </section>
 
-<!-- TANGGAL -->
 <section class="section">
   <h3>Pilih Tanggal Kunjungan</h3>
   <input type="date" class="input">
 </section>
 
-<!-- ULASAN -->
 <section class="section">
   <h3>Ulasan Pengunjung</h3>
-
   <form id="reviewForm">
-    <input type="text" id="name" placeholder="Nama" required class="input">
-    <textarea id="comment" placeholder="Komentar" required class="input"></textarea>
+    <input type="text" id="name" placeholder="Nama" class="input" required>
+    <textarea id="comment" placeholder="Komentar" class="input" required></textarea>
     <select id="rating" class="input">
       <option value="5">⭐⭐⭐⭐⭐</option>
       <option value="4">⭐⭐⭐⭐</option>
@@ -186,21 +168,17 @@ body{
     </select>
     <button class="btn">Kirim Ulasan</button>
   </form>
-
   <div id="reviewList"></div>
 </section>
 
-<!-- VIDEO -->
 <section class="section">
-  <h3>Video & Testimoni Wisatawan</h3>
+  <h3>Video & Testimoni</h3>
   <div class="video-grid">
     <div class="video-card">
-      <iframe src="https://www.youtube.com/embed/4tlgZfzbOEc" allowfullscreen></iframe>
-      <p>Wisata Edukasi</p>
+      <iframe src="https://www.youtube.com/embed/4tlgZfzbOEc"></iframe>
     </div>
     <div class="video-card">
-      <iframe src="https://www.youtube.com/embed/TOkoC0wrhHw" allowfullscreen></iframe>
-      <p>Budaya Lokal</p>
+      <iframe src="https://www.youtube.com/embed/TOkoC0wrhHw"></iframe>
     </div>
   </div>
 </section>
@@ -213,24 +191,20 @@ body{
 const form = document.getElementById("reviewForm");
 const list = document.getElementById("reviewList");
 
-form.addEventListener("submit", function(e){
+form.addEventListener("submit", e => {
   e.preventDefault();
-
   const name = document.getElementById("name").value;
   const comment = document.getElementById("comment").value;
   const rating = document.getElementById("rating").value;
 
-  let stars = "⭐".repeat(rating);
-
-  const review = document.createElement("div");
-  review.className = "review-item";
-  review.innerHTML = `
+  const div = document.createElement("div");
+  div.className = "review-item";
+  div.innerHTML = `
     <div class="review-name">${name}</div>
-    <div class="review-rating">${stars}</div>
-    <div class="review-comment">${comment}</div>
+    <div class="review-rating">${"⭐".repeat(rating)}</div>
+    <div>${comment}</div>
   `;
-
-  list.prepend(review);
+  list.prepend(div);
   form.reset();
 });
 </script>
