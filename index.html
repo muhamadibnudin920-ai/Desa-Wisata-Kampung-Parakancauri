@@ -12,50 +12,82 @@ body{
   background:#f4f6f8;
 }
 
+/* HEADER */
 .header{
   display:flex;
   align-items:center;
   gap:15px;
-  padding:15px;
+  padding:15px 20px;
   background:#2ecc71;
   color:white;
 }
-
 .logo-img{
   width:50px;
   height:50px;
   border-radius:50%;
+  background:white;
+  padding:3px;
 }
-
 .site-title{
   font-size:20px;
   margin:0;
 }
 
-.nav-bg{
+/* NAV */
+.nav{
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:15px;
   padding:12px;
-  background:url('assets/img/bg.jpg') center/cover no-repeat;
+  background:#1e8449;
 }
-
-.nav-bg a{
+.nav a{
   color:white;
   text-decoration:none;
   font-weight:bold;
-  background:rgba(0,0,0,0.5);
   padding:8px 14px;
   border-radius:8px;
+  background:rgba(255,255,255,0.15);
 }
 
+/* HERO / SELAMAT DATANG */
+.hero{
+  background:url('background.JPG') center/cover no-repeat;
+  padding:60px 20px;
+  color:white;
+  position:relative;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+}
+.hero-content{
+  position:relative;
+  max-width:900px;
+  margin:auto;
+  background:rgba(255,255,255,0.1);
+  backdrop-filter:blur(4px);
+  padding:30px;
+  border-radius:16px;
+}
+.hero h2{
+  margin-top:0;
+  font-size:28px;
+}
+.hero p{
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* SECTION */
 .section{
-  padding:20px;
   background:white;
-  margin:15px;
-  border-radius:12px;
+  margin:20px;
+  padding:20px;
+  border-radius:16px;
 }
-
 .input{
   width:100%;
   padding:10px;
@@ -63,10 +95,9 @@ body{
   border-radius:8px;
   border:1px solid #ccc;
 }
-
 .btn{
-  margin-top:10px;
-  padding:10px;
+  margin-top:12px;
+  padding:12px;
   width:100%;
   border:none;
   border-radius:8px;
@@ -76,25 +107,43 @@ body{
   cursor:pointer;
 }
 
+/* REVIEW */
+.review-item{
+  border-bottom:1px solid #eee;
+  padding:15px 0;
+}
+.review-item:last-child{
+  border-bottom:none;
+}
+.review-name{
+  font-weight:bold;
+}
+.review-rating{
+  color:#f1c40f;
+}
+.review-comment{
+  margin:6px 0 0;
+  color:#555;
+}
+
+/* VIDEO */
 .video-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
   gap:20px;
 }
-
 .video-card iframe{
   width:100%;
-  height:250px;
-  border-radius:12px;
+  height:240px;
+  border-radius:14px;
   border:none;
 }
-
 .video-card p{
   margin-top:8px;
-  font-size:14px;
   text-align:center;
 }
 
+/* FOOTER */
 .footer{
   text-align:center;
   padding:15px;
@@ -107,30 +156,30 @@ body{
 
 <body>
 
-<!-- HEADER -->
 <header class="header">
-  <img src="assets/img/logo.jpeg" class="logo-img" alt="Logo">
+  <img src="logo.jpeg" class="logo-img" alt="Logo">
   <h1 class="site-title">Wisata Kampung Parakancauri</h1>
 </header>
 
-<!-- NAV -->
-<nav class="nav-bg">
-  <a href="paket.html">Paket Wisata</a>
-  <a href="homestay.html">Homestay</a>
-  <a href="order-step1.html">Order</a>
-  <a href="tentang.html">Tentang</a>
+<nav class="nav">
+  <a href="#">Paket Wisata</a>
+  <a href="#">Homestay</a>
+  <a href="#">Order</a>
+  <a href="#">Tentang</a>
 </nav>
 
-<!-- DESKRIPSI -->
-<section class="section">
-  <h2>Selamat Datang</h2>
-  <p>
-    Wisata Kampung Parakancauri adalah destinasi wisata edukasi, budaya,
-    dan alam yang autentik dengan pengalaman langsung bersama masyarakat lokal.
-  </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h2>Selamat Datang</h2>
+    <p>
+      Wisata Kampung Parakancauri adalah destinasi wisata edukasi, budaya,
+      dan alam yang autentik dengan pengalaman langsung bersama masyarakat lokal.
+    </p>
+  </div>
 </section>
 
-<!-- KALENDER -->
+<!-- TANGGAL -->
 <section class="section">
   <h3>Pilih Tanggal Kunjungan</h3>
   <input type="date" class="input">
@@ -139,55 +188,65 @@ body{
 <!-- ULASAN -->
 <section class="section">
   <h3>Ulasan Pengunjung</h3>
-  <form>
-    <input type="text" placeholder="Nama" required class="input">
-    <textarea placeholder="Komentar" class="input"></textarea>
-    <select class="input">
-      <option>⭐⭐⭐⭐⭐</option>
-      <option>⭐⭐⭐⭐</option>
-      <option>⭐⭐⭐</option>
+
+  <form id="reviewForm">
+    <input type="text" id="name" placeholder="Nama" required class="input">
+    <textarea id="comment" placeholder="Komentar" required class="input"></textarea>
+    <select id="rating" class="input">
+      <option value="5">⭐⭐⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
     </select>
     <button class="btn">Kirim Ulasan</button>
   </form>
+
+  <div id="reviewList"></div>
 </section>
 
 <!-- VIDEO -->
 <section class="section">
   <h3>Video & Testimoni Wisatawan</h3>
-
   <div class="video-grid">
-
     <div class="video-card">
       <iframe src="https://www.youtube.com/embed/4tlgZfzbOEc" allowfullscreen></iframe>
-      <p>Wisata edukasi Kampung Parakancauri</p>
+      <p>Wisata Edukasi</p>
     </div>
-
     <div class="video-card">
       <iframe src="https://www.youtube.com/embed/TOkoC0wrhHw" allowfullscreen></iframe>
-      <p>Budaya & tradisi lokal</p>
+      <p>Budaya Lokal</p>
     </div>
-
-    <div class="video-card">
-      <iframe src="https://www.instagram.com/reel/DTaYGihjyVe/embed" allowfullscreen></iframe>
-      <p>Keseruan wisatawan</p>
-    </div>
-
-    <div class="video-card">
-      <iframe src="https://www.instagram.com/reel/DSkVcwOkmnu/embed" allowfullscreen></iframe>
-      <p>Wisata alam & kebersamaan</p>
-    </div>
-
-    <div class="video-card">
-      <iframe src="https://www.instagram.com/reel/DDjrG5eBqD4/embed" allowfullscreen></iframe>
-      <p>Testimoni pengunjung</p>
-    </div>
-
   </div>
 </section>
 
 <footer class="footer">
   © 2026 Wisata Kampung Parakancauri
 </footer>
+
+<script>
+const form = document.getElementById("reviewForm");
+const list = document.getElementById("reviewList");
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const comment = document.getElementById("comment").value;
+  const rating = document.getElementById("rating").value;
+
+  let stars = "⭐".repeat(rating);
+
+  const review = document.createElement("div");
+  review.className = "review-item";
+  review.innerHTML = `
+    <div class="review-name">${name}</div>
+    <div class="review-rating">${stars}</div>
+    <div class="review-comment">${comment}</div>
+  `;
+
+  list.prepend(review);
+  form.reset();
+});
+</script>
 
 </body>
 </html>
