@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+<style>
+body{font-family:Arial;background:#f4f6f8;margin:0}
+.box{background:#fff;margin:20px;padding:20px;border-radius:16px}
+.item{display:flex;justify-content:space-between;margin-bottom:8px}
+.total{font-weight:bold;margin-top:10px}
+input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:8px}
+button{background:#27ae60;color:#fff;border:none}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+ <h3>Pesanan</h3>
+ <div id="cartList"></div>
+ <div class="total" id="totalHarga"></div>
+</div>
+
+<div class="box">
+ <h3>Alamat Pengiriman</h3>
+ <input id="nama" placeholder="Nama Penerima" required>
+ <input id="alamat" placeholder="Alamat Lengkap" required>
+ <input id="hp" placeholder="No HP" required>
+</div>
+
+<div class="box">
+ <h3>Pembayaran</h3>
+ <select id="bank">
+  <option value="">Pilih Metode</option>
+  <option value="BCA">BCA</option>
+  <option value="BRI">BRI</option>
+  <option value="DANA">DANA</option>
+  <option value="OVO">OVO</option>
+ </select>
+ <button onclick="bayar()">Bayar Sekarang</button>
+</div>
+
+<script src="js/checkout.js"></script>
+</body>
+</html>
