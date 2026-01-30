@@ -1,4 +1,4 @@
-  const produk = [
+const produk = [
   {
     id: 1,
     nama: "Saroja Mini",
@@ -16,9 +16,9 @@
   {
     id: 3,
     nama: "Gula Aren Cair",
-    deskripsi: "Gula aren cair asli tanpa campuran bahan kimia.",
+    deskripsi: "Gula aren cair asli tanpa bahan pengawet.",
     harga: 20000,
-    img: "assets/umkm3.jpg"
+    img: "assets/umkm3.jpeg"
   },
   {
     id: 4,
@@ -30,14 +30,14 @@
   {
     id: 5,
     nama: "Gula Aren Bubuk",
-    deskripsi: "Gula aren bubuk praktis untuk minuman & masakan.",
+    deskripsi: "Gula aren bubuk praktis untuk minuman dan masakan.",
     harga: 22000,
     img: "assets/umkm5.jpg"
   },
   {
     id: 6,
     nama: "Saroja Besar",
-    deskripsi: "Saroja ukuran besar, cocok untuk oleh-oleh.",
+    deskripsi: "Saroja ukuran besar cocok untuk oleh-oleh.",
     harga: 25000,
     img: "assets/umkm6.jpg"
   },
@@ -58,7 +58,7 @@
   {
     id: 9,
     nama: "Gula Aren Organik",
-    deskripsi: "Diproduksi secara tradisional dan ramah lingkungan.",
+    deskripsi: "Diproduksi tradisional tanpa bahan kimia.",
     harga: 26000,
     img: "assets/umkm9.jpg"
   },
