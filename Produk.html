@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produk UMKM | Parakanceuri</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#f5f5f5}
+.header{background:#2ecc71;color:#fff;padding:15px;text-align:center;font-size:20px;font-weight:bold}
+.container{padding:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.card img{width:100%;height:160px;object-fit:cover;cursor:pointer}
+.info{padding:10px}
+.title{font-size:14px;height:36px;overflow:hidden}
+.price{color:#ee4d2d;font-weight:bold;margin-top:6px}
+.cart{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;padding:12px;
+  border-top:2px solid #eee
+}
+.cart h3{margin:0 0 6px 0}
+.cart-item{font-size:14px}
+.total{font-weight:bold;margin-top:6px}
+select,button{
+  width:100%;padding:10px;margin-top:8px;
+  border-radius:8px;border:1px solid #ccc
+}
+button{background:#2ecc71;color:#fff;border:none;font-weight:bold}
+.bank{background:#f0f0f0;padding:10px;border-radius:8px;margin-top:8px;font-size:14px}
+</style>
+</head>
+
+<body>
+
+<div class="header">Produk UMKM Parakanceuri</div>
+
+<div class="container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="cart" id="cart">
+  <h3>🛒 Keranjang</h3>
+  <div id="cartList">Belum ada produk</div>
+  <div class="total" id="total">Total: Rp0</div>
+
+  <select id="payment">
+    <option value="">Pilih Metode Pembayaran</option>
+    <option value="BCA">Transfer BCA</option>
+    <option value="BRI">Transfer BRI</option>
+    <option value="Mandiri">Transfer Mandiri</option>
+    <option value="Dana">Dana</option>
+  </select>
+
+  <div class="bank" id="bankInfo"></div>
+
+  <button onclick="checkout()">Kirim Pesanan ke Admin</button>
+</div>
+
+<script>
+const baseImg="https://raw.githubusercontent.com/USERNAME/NAMA_REPO/main/umkm/";
+
+const products=[
+  {id:1,nama:"Kopi Bubuk Parakanceuri",harga:25000,img:"kopi.jpg"},
+  {id:2,nama:"Gula Aren Asli",harga:18000,img:"gula-aren.jpg"},
+  {id:3,nama:"Keripik Singkong",harga:15000,img:"keripik.jpg"},
+  {id:4,nama:"Madu Hutan Lokal",harga:55000,img:"madu.jpg"}
+];
+
+let cart={};
+
+const grid=document.getElementById("grid");
+const cartList=document.getElementById("cartList");
+const totalEl=document.getElementById("total");
+const bankInfo=document.getElementById("bankInfo");
+
+products.forEach(p=>{
+  grid.innerHTML+=`
+  <div class="card">
+    <img src="${baseImg+p.img}" onclick="add(${p.id})">
+    <div class="info">
+      <div class="title">${p.nama}</div>
+      <div class="price">Rp${p.harga.toLocaleString()}</div>
+    </div>
+  </div>`;
+});
+
+function add(id){
+  cart[id]=(cart[id]||0)+1;
+  render();
+}
+
+function render(){
+  let html="",total=0;
+  Object.keys(cart).forEach(id=>{
+    const p=products.find(x=>x.id==id);
+    const qty=cart[id];
+    total+=p.harga*qty;
+    html+=`${p.nama} x ${qty} = Rp${(p.harga*qty).toLocaleString()}<br>`;
+  });
+  cartList.innerHTML=html||"Belum ada produk";
+  totalEl.innerText="Total: Rp"+total.toLocaleString();
+}
+
+document.getElementById("payment").addEventListener("change",e=>{
+  const bank={
+    BCA:"BCA 123456789 a.n UMKM Parakanceuri",
+    BRI:"BRI 987654321 a.n UMKM Parakanceuri",
+    Mandiri:"Mandiri 555444333 a.n UMKM Parakanceuri",
+    Dana:"Dana 081234567890"
+  };
+  bankInfo.innerText=bank[e.target.value]||"";
+});
+
+function checkout(){
+  if(!Object.keys(cart).length)return alert("Keranjang kosong");
+  const pay=document.getElementById("payment").value;
+  if(!pay)return alert("Pilih metode pembayaran");
+
+  let pesan="Pesanan UMKM:%0A";
+  let total=0;
+  Object.keys(cart).forEach(id=>{
+    const p=products.find(x=>x.id==id);
+    const qty=cart[id];
+    total+=p.harga*qty;
+    pesan+=`- ${p.nama} x ${qty}%0A`;
+  });
+  pesan+=`Total: Rp${total.toLocaleString()}%0AMetode: ${pay}`;
+
+  window.open(
+    "https://wa.me/6281234567890?text="+pesan,
+    "_blank"
+  );
+}
+</script>
+
+</body>
+</html>
