@@ -11,7 +11,6 @@ body{font-family:Arial;background:#f4f6f8;margin:0}
 .total{font-weight:bold;margin-top:10px}
 input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:8px}
 button{background:#27ae60;color:#fff;border:none}
-.status{margin-top:15px;font-weight:bold}
 </style>
 </head>
 
@@ -25,9 +24,9 @@ button{background:#27ae60;color:#fff;border:none}
 
 <div class="box">
  <h3>Alamat Pengiriman</h3>
- <input id="nama" placeholder="Nama Penerima">
- <input id="alamat" placeholder="Alamat Lengkap">
- <input id="hp" placeholder="No HP">
+ <input id="nama" placeholder="Nama Penerima" required>
+ <input id="alamat" placeholder="Alamat Lengkap" required>
+ <input id="hp" placeholder="No HP" required>
 </div>
 
 <div class="box">
@@ -40,9 +39,8 @@ button{background:#27ae60;color:#fff;border:none}
   <option value="OVO">OVO</option>
  </select>
  <button onclick="bayar()">Bayar Sekarang</button>
- <div class="status" id="statusBayar"></div>
 </div>
 
-<script type="module" src="js/checkout.js"></script>
+<script src="js/checkout.js"></script>
 </body>
 </html>
