@@ -1,96 +1,95 @@
-<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } 
 from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-/* 🔥 FIREBASE CONFIG */
+/* ================= FIREBASE ================= */
 const firebaseConfig = {
-  apiKey: "AIzaSyDGtaYv3aoWCgIgRfolj8vsOcihKCVc39k",
-  authDomain: "kampung-parakanceuri.firebaseapp.com",
-  projectId: "kampung-parakanceuri",
-  storageBucket: "kampung-parakanceuri.firebasestorage.app",
-  messagingSenderId: "292542466143",
-  appId: "1:292542466143:web:94d68782579f66060373ea"
+ apiKey: "AIzaSyDGtaYv3aoWCgIgRfolj8vsOcihKCVc39k",
+ authDomain: "kampung-parakanceuri.firebaseapp.com",
+ projectId: "kampung-parakanceuri",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* 🛒 DATA KERANJANG */
+/* ================= CART ================= */
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 const list = document.getElementById("cartList");
 const totalEl = document.getElementById("totalHarga");
+const statusEl = document.getElementById("statusBayar");
 
 let total = 0;
+list.innerHTML = "";
 cart.forEach(i => {
-  let sub = i.harga * i.qty;
-  total += sub;
-  list.innerHTML += `
-    <div class="item">
-      <span>${i.nama} x ${i.qty}</span>
-      <span>Rp ${sub.toLocaleString("id-ID")}</span>
-    </div>
-  `;
+ const sub = i.harga * i.qty;
+ total += sub;
+ list.innerHTML += `
+  <div class="item">
+   <span>${i.nama} x ${i.qty}</span>
+   <span>Rp ${sub.toLocaleString("id-ID")}</span>
+  </div>
+ `;
 });
 totalEl.innerText = "Total: Rp " + total.toLocaleString("id-ID");
 
-/* 🏦 REKENING ADMIN (SEMUA METODE) */
+/* ================= REKENING ADMIN ================= */
 const rekeningAdmin = {
-  BCA: "1234567890 a.n Admin UMKM Parakanceuri",
-  BRI: "9876543210 a.n Admin UMKM Parakanceuri",
-  DANA: "081234567890 (DANA)",
-  OVO: "081234567890 (OVO)"
+ BCA: "1234567890 a.n Admin UMKM",
+ BRI: "9876543210 a.n Admin UMKM",
+ DANA: "081234567890 (DANA)",
+ OVO: "081234567890 (OVO)"
 };
 
-/* 🔔 AREA STATUS */
-const statusBox = document.createElement("div");
-statusBox.style.margin = "20px";
-statusBox.style.padding = "15px";
-statusBox.style.background = "#fff";
-statusBox.style.borderRadius = "12px";
-document.body.appendChild(statusBox);
+/* ================= LINK PEMBAYARAN ================= */
+const paymentLink = {
+ BCA: "https://www.bca.co.id",
+ BRI: "https://bri.co.id",
+ DANA: "https://link.dana.id",
+ OVO: "https://ovo.id"
+};
 
-/* 💳 BAYAR */
+/* ================= BAYAR ================= */
 window.bayar = async function () {
-  const nama = document.getElementById("nama").value;
-  const alamat = document.getElementById("alamat").value;
-  const hp = document.getElementById("hp").value;
-  const bank = document.getElementById("bank").value;
+ const nama = document.getElementById("nama").value;
+ const alamat = document.getElementById("alamat").value;
+ const hp = document.getElementById("hp").value;
+ const bank = document.getElementById("bank").value;
 
-  if (!nama || !alamat || !hp || !bank) {
-    alert("Lengkapi data terlebih dahulu");
-    return;
-  }
+ if (!nama || !alamat || !hp || !bank) {
+  alert("Lengkapi data terlebih dahulu");
+  return;
+ }
 
-  /* SIMPAN KE FIREBASE */
-  await addDoc(collection(db, "orders"), {
-    nama,
-    alamat,
-    hp,
-    bank,
-    rekeningTujuan: rekeningAdmin[bank],
-    items: cart,
-    total,
-    status: "MENUNGGU PEMBAYARAN",
-    waktu: serverTimestamp()
-  });
+ statusEl.innerText = "⏳ Membuat pesanan...";
 
-  statusBox.innerHTML = `
-    <h3>✅ Pesanan Dibuat</h3>
-    <b>Nama:</b> ${nama}<br>
-    <b>Alamat:</b> ${alamat}<br>
-    <b>HP:</b> ${hp}<br><br>
+ /* ===== SIMPAN KE FIREBASE ===== */
+ await addDoc(collection(db, "orders"), {
+  nama,
+  alamat,
+  hp,
+  metodePembayaran: bank,
+  rekeningTujuan: rekeningAdmin[bank],
+  items: cart,
+  total,
+  status: "MENUNGGU PEMBAYARAN",
+  waktu: serverTimestamp()
+ });
 
-    <b>Metode Pembayaran:</b> ${bank}<br>
-    <b>Rekening Tujuan:</b><br>
-    ${rekeningAdmin[bank]}<br><br>
+ /* ===== INFO KE USER ===== */
+ statusEl.innerHTML = `
+  ✅ Pesanan berhasil dibuat<br><br>
+  <b>Nama:</b> ${nama}<br>
+  <b>Alamat:</b> ${alamat}<br>
+  <b>Metode:</b> ${bank}<br>
+  <b>Tujuan:</b> ${rekeningAdmin[bank]}<br>
+  <b>Total:</b> Rp ${total.toLocaleString("id-ID")}<br><br>
+  🔔 Anda akan diarahkan ke pembayaran
+ `;
 
-    <b>Total Bayar:</b> Rp ${total.toLocaleString("id-ID")}<br><br>
+ /* ===== REDIRECT KE BANK ===== */
+ setTimeout(() => {
+  window.open(paymentLink[bank], "_blank");
+ }, 1500);
 
-    ⏳ Silakan lakukan pembayaran.<br>
-    Setelah transfer, pesanan akan diproses.
-  `;
-
-  localStorage.removeItem("cart");
+ localStorage.removeItem("cart");
 };
-</script>
