@@ -20,6 +20,7 @@ const statusEl = document.getElementById("statusBayar");
 
 let total = 0;
 list.innerHTML = "";
+
 cart.forEach(i => {
  const sub = i.harga * i.qty;
  total += sub;
@@ -30,17 +31,22 @@ cart.forEach(i => {
   </div>
  `;
 });
-totalEl.innerText = "Total: Rp " + total.toLocaleString("id-ID");
+
+const ongkir = 15000;
+totalEl.innerText =
+ "Subtotal: Rp " + total.toLocaleString("id-ID") +
+ "\nOngkir: Rp " + ongkir.toLocaleString("id-ID") +
+ "\nTotal: Rp " + (total + ongkir).toLocaleString("id-ID");
 
 /* ================= REKENING ADMIN ================= */
 const rekeningAdmin = {
  BCA: "1234567890 a.n Admin UMKM",
  BRI: "9876543210 a.n Admin UMKM",
- DANA: "081234567890 (DANA)",
- OVO: "081234567890 (OVO)"
+ DANA: "081234567890",
+ OVO: "081234567890"
 };
 
-/* ================= LINK PEMBAYARAN ================= */
+/* ================= LINK BANK ================= */
 const paymentLink = {
  BCA: "https://www.bca.co.id",
  BRI: "https://bri.co.id",
@@ -60,36 +66,44 @@ window.bayar = async function () {
   return;
  }
 
- statusEl.innerText = "⏳ Membuat pesanan...";
+ statusEl.innerHTML = "⏳ Membuat pesanan...";
 
- /* ===== SIMPAN KE FIREBASE ===== */
- await addDoc(collection(db, "orders"), {
+ const orderData = {
   nama,
   alamat,
   hp,
-  metodePembayaran: bank,
-  rekeningTujuan: rekeningAdmin[bank],
+  metode: bank,
+  rekening: rekeningAdmin[bank],
   items: cart,
-  total,
+  subtotal: total,
+  ongkir,
+  totalBayar: total + ongkir,
+  estimasi: "2 - 5 Hari",
   status: "MENUNGGU PEMBAYARAN",
+  batasBayar: Date.now() + 3600000,
   waktu: serverTimestamp()
- });
+ };
 
- /* ===== INFO KE USER ===== */
+ await addDoc(collection(db, "orders"), orderData);
+
  statusEl.innerHTML = `
-  ✅ Pesanan berhasil dibuat<br><br>
-  <b>Nama:</b> ${nama}<br>
-  <b>Alamat:</b> ${alamat}<br>
-  <b>Metode:</b> ${bank}<br>
-  <b>Tujuan:</b> ${rekeningAdmin[bank]}<br>
-  <b>Total:</b> Rp ${total.toLocaleString("id-ID")}<br><br>
-  🔔 Anda akan diarahkan ke pembayaran
+  <b>Pesanan dibuat</b><br><br>
+  Metode: ${bank}<br>
+  Tujuan: ${rekeningAdmin[bank]}<br>
+  Total: Rp ${(total + ongkir).toLocaleString("id-ID")}<br>
+  Estimasi: 2 – 5 Hari<br><br>
+  ⏱️ Selesaikan pembayaran dalam 1 jam
+  <br><br>
+  <button onclick="batalkan()">Batalkan Pesanan</button>
  `;
 
- /* ===== REDIRECT KE BANK ===== */
  setTimeout(() => {
   window.open(paymentLink[bank], "_blank");
- }, 1500);
+ }, 1200);
+};
 
+/* ================= BATALKAN ================= */
+window.batalkan = function () {
+ statusEl.innerHTML = "❌ Pesanan dibatalkan";
  localStorage.removeItem("cart");
 };
