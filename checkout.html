@@ -45,6 +45,10 @@ button{background:#27ae60;color:#fff;border:none}
   <div class="status" id="statusBayar"></div>
 </div>
 
+<!-- ✅ MIDTRANS CLIENT KEY (WAJIB DI CHECKOUT.HTML) -->
+<script src="https://app.midtrans.com/snap/snap.js"
+data-client-key="Mid-client-L5qvKZPZDD2WV6lZ"></script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp }
@@ -87,31 +91,15 @@ Ongkir: Rp ${ongkir.toLocaleString("id-ID")}<br>
 <b>Total: Rp ${totalBayar.toLocaleString("id-ID")}</b>
 `;
 
-/* 💳 REKENING ADMIN */
-const rekeningAdmin = {
-  BCA: "1234567890 a.n Admin UMKM",
-  BRI: "9876543210 a.n Admin UMKM",
-  DANA: "081234567890",
-  OVO: "081234567890"
-};
-
-/* 🔗 LINK BANK / EWALLET */
-const paymentLink = {
-  BCA: "https://www.bca.co.id",
-  BRI: "https://bri.co.id",
-  DANA: "https://link.dana.id",
-  OVO: "https://ovo.id"
-};
-
 /* 🔘 TOMBOL */
 aksiEl.innerHTML = `
 <button onclick="bayar()">Bayar Sekarang</button>
 <button class="batal" onclick="batalkan()">Batalkan Pesanan</button>
 `;
 
-/* 💰 BAYAR */
+/* 💰 BAYAR (SIMULASI SNAP) */
 window.bayar = async () => {
-  const nama = document.getElementById("nama").value;
+  const nama = nama.value;
   const alamat = document.getElementById("alamat").value;
   const hp = document.getElementById("hp").value;
   const bank = document.getElementById("bank").value;
@@ -121,30 +109,17 @@ window.bayar = async () => {
     return;
   }
 
-  statusEl.innerHTML = "⏳ Menunggu pembayaran (maks 1 jam)...";
+  statusEl.innerHTML = "⏳ Membuka pembayaran Midtrans...";
 
   await addDoc(collection(db,"orders"),{
-    nama,
-    alamat,
-    hp,
-    metode: bank,
-    rekeningTujuan: rekeningAdmin[bank],
+    nama, alamat, hp, bank,
     items: cart,
-    subtotal,
-    ongkir,
-    total: totalBayar,
+    subtotal, ongkir, total: totalBayar,
     status: "MENUNGGU PEMBAYARAN",
-    estimasi: "2 – 5 Hari",
     waktu: serverTimestamp()
   });
 
-  window.open(paymentLink[bank],"_blank");
-
-  statusEl.innerHTML = `
-Silakan bayar ke:<br>
-<b>${rekeningAdmin[bank]}</b><br>
-Total: Rp ${totalBayar.toLocaleString("id-ID")}
-`;
+  alert("Snap Midtrans akan muncul di tahap backend token (Firebase Function)");
 };
 
 /* ❌ BATAL */
