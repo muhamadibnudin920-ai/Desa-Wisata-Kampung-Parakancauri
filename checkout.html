@@ -24,9 +24,9 @@ button{background:#27ae60;color:#fff;border:none}
 
 <div class="box">
  <h3>Alamat Pengiriman</h3>
- <input id="nama" placeholder="Nama Penerima" required>
- <input id="alamat" placeholder="Alamat Lengkap" required>
- <input id="hp" placeholder="No HP" required>
+ <input id="nama" placeholder="Nama Penerima">
+ <input id="alamat" placeholder="Alamat Lengkap">
+ <input id="hp" placeholder="No HP">
 </div>
 
 <div class="box">
@@ -41,6 +41,57 @@ button{background:#27ae60;color:#fff;border:none}
  <button onclick="bayar()">Bayar Sekarang</button>
 </div>
 
-<script src="js/checkout.js"></script>
+<script>
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+const list=document.getElementById("cartList");
+const totalEl=document.getElementById("totalHarga");
+
+function renderCart(){
+ list.innerHTML="";
+ let total=0;
+ cart.forEach((i,idx)=>{
+  let sub=i.harga*i.qty;
+  total+=sub;
+  list.innerHTML+=`
+   <div class="item">
+    <span>${i.nama} x ${i.qty}</span>
+    <span>
+     Rp ${sub.toLocaleString()}
+     <button onclick="hapus(${idx})">❌</button>
+    </span>
+   </div>`;
+ });
+ totalEl.innerText="Total: Rp "+total.toLocaleString();
+}
+renderCart();
+
+function hapus(i){
+ cart.splice(i,1);
+ localStorage.setItem("cart",JSON.stringify(cart));
+ renderCart();
+}
+
+const rekening={
+ BCA:"1234567890 a.n Admin UMKM",
+ BRI:"9876543210 a.n Admin UMKM",
+ DANA:"081234567890",
+ OVO:"081234567890"
+};
+
+function bayar(){
+ let nama=nama.value,alamat=alamat.value,hp=hp.value,bank=document.getElementById("bank").value;
+ if(!nama||!alamat||!hp||!bank){alert("Lengkapi data");return;}
+ alert(
+`TRANSFER KE:
+${bank}
+${rekening[bank]}
+
+Total: Rp ${cart.reduce((a,b)=>a+b.harga*b.qty,0).toLocaleString()}
+
+📸 Kirim bukti pembayaran ke admin`
+ );
+ localStorage.removeItem("cart");
+}
+</script>
 </body>
 </html>
