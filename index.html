@@ -12,7 +12,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8}
 .site-title{font-size:20px;margin:0}
 .nav{display:flex;gap:12px;padding:12px;background:#1e8449;overflow-x:auto;white-space:nowrap}
 .nav::-webkit-scrollbar{display:none}
-.nav a{flex:0 0 auto;color:#fff;text-decoration:none;font-weight:bold;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.15)}
+.nav a{color:#fff;text-decoration:none;font-weight:bold;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.15)}
 .hero{background:url('background.JPG') center/cover no-repeat;height:260px;position:relative}
 .hero::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.5)}
 .section{background:#fff;margin:20px;padding:20px;border-radius:16px}
@@ -20,12 +20,10 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8}
 .btn{margin-top:12px;padding:12px;width:100%;border:none;border-radius:8px;background:#27ae60;color:#fff;font-weight:bold}
 .review-item{border-bottom:1px solid #eee;padding:15px 0}
 .review-rating{color:#f1c40f}
-.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.video-card iframe{width:100%;height:240px;border-radius:14px;border:none}
 .paket-wrapper{background:#fff;margin:20px;padding:20px;border-radius:16px}
 .paket-slider{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory}
 .paket-slider::-webkit-scrollbar{display:none}
-.paket-item{flex:0 0 85%;scroll-snap-align:start}
+.paket-item{flex:0 0 85%}
 .paket-item img{width:100%;border-radius:16px}
 .arrow{text-align:center;font-size:28px;margin-top:10px}
 .footer{text-align:center;padding:15px;background:#2ecc71;color:#fff}
@@ -41,8 +39,6 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8}
 
 <nav class="nav">
   <a href="index.html">Beranda</a>
-  <a href="edukasi.html">Edukasi</a>
-  <a href="homestay.html">Homestay</a>
   <a href="produk.html">Produk</a>
   <a href="tentang.html">Tentang</a>
 </nav>
@@ -51,7 +47,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8}
 
 <section class="section">
   <h2>Selamat Datang</h2>
-  <p>Website Resmi Wisata Kampung Parakanceuri adalah destinasi wisata edukasi, budaya, dan alam.</p>
+  <p>Website Resmi Wisata Kampung Parakanceuri.</p>
 </section>
 
 <section class="paket-wrapper">
@@ -83,78 +79,53 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8}
   </form>
 </section>
 
-<section class="section">
-  <h3>Video & Testimoni</h3>
-  <div class="video-grid">
-    <div class="video-card">
-      <iframe src="https://www.youtube.com/embed/4tlgZfzbOEc" allowfullscreen></iframe>
-    </div>
-    <div class="video-card">
-      <iframe src="https://www.youtube.com/embed/TOkoC0wrhHw" allowfullscreen></iframe>
-    </div>
-  </div>
-</section>
-
 <footer class="footer">© 2026 Wisata Kampung Parakanceuri</footer>
 
-<!-- 🔥 FIREBASE (SATU KALI, SIAP PAKAI) -->
+<!-- 🔥 FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy }
 from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const app = initializeApp({
   apiKey: "AIzaSyDGtaYv3aoWCgIgRfolj8vsOcihKCVc39k",
   authDomain: "kampung-parakanceuri.firebaseapp.com",
-  projectId: "kampung-parakanceuri",
-  storageBucket: "kampung-parakanceuri.firebasestorage.app",
-  messagingSenderId: "292542466143",
-  appId: "1:292542466143:web:94d68782579f66060373ea",
-  measurementId: "G-X7RH1Q109N"
-};
+  projectId: "kampung-parakanceuri"
+});
 
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
 const db = getFirestore(app);
 
-const form = document.getElementById("reviewForm");
 const list = document.getElementById("reviewList");
+const form = document.getElementById("reviewForm");
 
-onSnapshot(
-  query(collection(db, "reviews"), orderBy("time", "desc")),
-  snap => {
-    list.innerHTML = "";
-    snap.forEach(doc => {
-      const v = doc.data();
-      list.innerHTML += `
-        <div class="review-item">
-          <b>${v.name}</b>
-          <div class="review-rating">${"⭐".repeat(v.rating)}</div>
-          <div>${v.comment}</div>
-        </div>`;
-    });
-  }
-);
+onSnapshot(query(collection(db,"reviews"),orderBy("time","desc")), snap=>{
+  list.innerHTML="";
+  snap.forEach(d=>{
+    const r=d.data();
+    list.innerHTML+=`
+      <div class="review-item">
+        <b>${r.name}</b>
+        <div class="review-rating">${"⭐".repeat(r.rating)}</div>
+        <div>${r.comment}</div>
+      </div>`;
+  });
+});
 
-form.addEventListener("submit", async e => {
+form.onsubmit=async e=>{
   e.preventDefault();
-  await addDoc(collection(db, "reviews"), {
-    name: name.value,
-    comment: comment.value,
-    rating: Number(rating.value),
-    time: Date.now()
+  await addDoc(collection(db,"reviews"),{
+    name:name.value,
+    comment:comment.value,
+    rating:+rating.value,
+    time:Date.now()
   });
   form.reset();
-});
+};
 
-const slider = document.getElementById("paketSlider");
-const arrow = document.getElementById("arrow");
-slider.addEventListener("scroll", () => {
-  arrow.textContent =
-    slider.scrollLeft >= slider.scrollWidth - slider.clientWidth - 5
-      ? "⬅️" : "➡️";
-});
+const slider=document.getElementById("paketSlider");
+const arrow=document.getElementById("arrow");
+slider.onscroll=()=>arrow.textContent=
+  slider.scrollLeft+slider.clientWidth>=slider.scrollWidth?"⬅️":"➡️";
 </script>
 
 </body>
