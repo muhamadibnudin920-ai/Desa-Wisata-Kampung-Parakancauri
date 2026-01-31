@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
+
 <style>
 body{font-family:Arial;background:#f4f6f8;margin:0}
 .box{background:#fff;margin:20px;padding:20px;border-radius:16px}
@@ -11,36 +12,149 @@ body{font-family:Arial;background:#f4f6f8;margin:0}
 .total{font-weight:bold;margin-top:10px}
 input,select,button{width:100%;padding:12px;margin-top:10px;border-radius:8px}
 button{background:#27ae60;color:#fff;border:none}
+.batal{background:#e74c3c}
+.status{margin-top:15px;font-weight:bold}
 </style>
 </head>
 
 <body>
 
 <div class="box">
- <h3>Pesanan</h3>
- <div id="cartList"></div>
- <div class="total" id="totalHarga"></div>
+  <h3>Pesanan</h3>
+  <div id="cartList"></div>
+  <div class="total" id="totalHarga"></div>
+  <div id="aksiPesanan"></div>
 </div>
 
 <div class="box">
- <h3>Alamat Pengiriman</h3>
- <input id="nama" placeholder="Nama Penerima" required>
- <input id="alamat" placeholder="Alamat Lengkap" required>
- <input id="hp" placeholder="No HP" required>
+  <h3>Alamat Pengiriman</h3>
+  <input id="nama" placeholder="Nama Penerima">
+  <input id="alamat" placeholder="Alamat Lengkap">
+  <input id="hp" placeholder="No HP">
 </div>
 
 <div class="box">
- <h3>Pembayaran</h3>
- <select id="bank">
-  <option value="">Pilih Metode</option>
-  <option value="BCA">BCA</option>
-  <option value="BRI">BRI</option>
-  <option value="DANA">DANA</option>
-  <option value="OVO">OVO</option>
- </select>
- <button onclick="bayar()">Bayar Sekarang</button>
+  <h3>Pembayaran</h3>
+  <select id="bank">
+    <option value="">Pilih Metode</option>
+    <option value="BCA">BCA</option>
+    <option value="BRI">BRI</option>
+    <option value="DANA">DANA</option>
+    <option value="OVO">OVO</option>
+  </select>
+  <div class="status" id="statusBayar"></div>
 </div>
 
-<script src="js/checkout.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp }
+from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+/* 🔥 FIREBASE */
+const firebaseConfig = {
+  apiKey: "AIzaSyDGtaYv3aoWCgIgRfolj8vsOcihKCVc39k",
+  authDomain: "kampung-parakanceuri.firebaseapp.com",
+  projectId: "kampung-parakanceuri"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* 🛒 CART */
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const list = document.getElementById("cartList");
+const totalEl = document.getElementById("totalHarga");
+const aksiEl = document.getElementById("aksiPesanan");
+const statusEl = document.getElementById("statusBayar");
+
+let subtotal = 0;
+const ongkir = 15000;
+
+cart.forEach(i=>{
+  const sub = i.harga * i.qty;
+  subtotal += sub;
+  list.innerHTML += `
+    <div class="item">
+      <span>${i.nama} x ${i.qty}</span>
+      <span>Rp ${sub.toLocaleString("id-ID")}</span>
+    </div>
+  `;
+});
+
+const totalBayar = subtotal + ongkir;
+totalEl.innerHTML = `
+Subtotal: Rp ${subtotal.toLocaleString("id-ID")}<br>
+Ongkir: Rp ${ongkir.toLocaleString("id-ID")}<br>
+<b>Total: Rp ${totalBayar.toLocaleString("id-ID")}</b>
+`;
+
+/* 💳 REKENING ADMIN */
+const rekeningAdmin = {
+  BCA: "1234567890 a.n Admin UMKM",
+  BRI: "9876543210 a.n Admin UMKM",
+  DANA: "081234567890",
+  OVO: "081234567890"
+};
+
+/* 🔗 LINK BANK / EWALLET */
+const paymentLink = {
+  BCA: "https://www.bca.co.id",
+  BRI: "https://bri.co.id",
+  DANA: "https://link.dana.id",
+  OVO: "https://ovo.id"
+};
+
+/* 🔘 TOMBOL */
+aksiEl.innerHTML = `
+<button onclick="bayar()">Bayar Sekarang</button>
+<button class="batal" onclick="batalkan()">Batalkan Pesanan</button>
+`;
+
+/* 💰 BAYAR */
+window.bayar = async () => {
+  const nama = document.getElementById("nama").value;
+  const alamat = document.getElementById("alamat").value;
+  const hp = document.getElementById("hp").value;
+  const bank = document.getElementById("bank").value;
+
+  if(!nama || !alamat || !hp || !bank){
+    alert("Lengkapi data terlebih dahulu");
+    return;
+  }
+
+  statusEl.innerHTML = "⏳ Menunggu pembayaran (maks 1 jam)...";
+
+  await addDoc(collection(db,"orders"),{
+    nama,
+    alamat,
+    hp,
+    metode: bank,
+    rekeningTujuan: rekeningAdmin[bank],
+    items: cart,
+    subtotal,
+    ongkir,
+    total: totalBayar,
+    status: "MENUNGGU PEMBAYARAN",
+    estimasi: "2 – 5 Hari",
+    waktu: serverTimestamp()
+  });
+
+  window.open(paymentLink[bank],"_blank");
+
+  statusEl.innerHTML = `
+Silakan bayar ke:<br>
+<b>${rekeningAdmin[bank]}</b><br>
+Total: Rp ${totalBayar.toLocaleString("id-ID")}
+`;
+};
+
+/* ❌ BATAL */
+window.batalkan = () => {
+  localStorage.removeItem("cart");
+  list.innerHTML="";
+  aksiEl.innerHTML="";
+  statusEl.innerHTML="❌ Pesanan dibatalkan";
+};
+</script>
+
 </body>
 </html>
